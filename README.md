@@ -5,4 +5,4 @@ This is the main repository for my Engineering ROP Minor Project for Mr. Crosset
 In this repo, I will include the following components:
 
 1. Source Code for Android Application
-2. Source Code for ESP8266 Wifi MCU
+2. Source Code for Raspberry Pi
