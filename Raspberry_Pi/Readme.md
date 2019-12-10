@@ -12,5 +12,5 @@ Command | Action
 --------|-------
 **PING** | respond with a "ping received"
 **STOP** | STOP all motors
-**L:XX** | Turn on Left motor to XX speed
-**R:XX** | Turn on Right motor to XX speed
+**SHUTDOWN** | SHUTDOWN Raspberry Pi
+**FF:RR** | FF is forward strength (-1 to 1) and RR is rotation (-1 to 1)
