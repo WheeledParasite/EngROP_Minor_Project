@@ -24,44 +24,33 @@
         android:orientation="vertical">
 
         <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
             android:id="@+id/JoystickView"
-            android:layout_width="match_parent"
-            android:layout_height="307dp"
-            android:layout_gravity="center"
-            app:JV_autoReCenterButton="false"
-            app:JV_backgroundColor="#009688"
-            app:JV_borderColor="#00796B"
-            app:JV_borderWidth="4dp"
-            app:JV_buttonColor="#FF6E40"
-            app:JV_buttonSizeRatio="15%"
-            app:JV_fixedCenter="false" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical"
-            android:text="Debug Data"
-            android:visibility="visible"
-            tools:visibility="visible" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:JV_buttonColor="#FF6E40"
+            custom:JV_buttonSizeRatio="15%"
+            custom:JV_borderColor="#00796B"
+            custom:JV_backgroundColor="#009688"
+            custom:JV_borderWidth="4dp"
+            custom:JV_fixedCenter="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/redbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shutdown" />
+                android:text="Red" />
 
             <Button
                 android:id="@+id/greenbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stop" />
+                android:text="Green" />
         </LinearLayout>
 
     </LinearLayout>
