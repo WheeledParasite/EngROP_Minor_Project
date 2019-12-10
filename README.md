@@ -1,4 +1,5 @@
 # Engineering ROP Minor Project
+## Instructor: Mr. Crossett
 ### Hunter Ruebsamen
 
 ## Project Overview
