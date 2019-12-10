@@ -54,14 +54,18 @@ while True:
 		robot.stop()
 		print ('stop received')
 		sent = sock.sendto(b'stop received', address)
-    elif data == b'SHUTDOWN':
+	elif data == b'SHUTDOWN':
 		robot.stop()
-        print ('shutting down')
-        check_call(['sudo','poweroff'])
+        sent = sock.sendto(b'Shutting Down Robot', address)
+		print ('shutting down')
+		check_call(['sudo','poweroff'])
 		break  # exit while loop and take no more commands
 	else:
-		str_data = str(data)
+		str_data = data.decode("utf-8")
 		new_data = str_data.split(':')
+		print(new_data[0])
+		print(":")
+		print(new_data[1])
 		forspeed = float(new_data[0])
 		rotspeed = float(new_data[1])
 		# handle movement
@@ -89,3 +93,4 @@ while True:
 				robot.left(-rotspeed)
 			else:
 				robot.stop()
+
