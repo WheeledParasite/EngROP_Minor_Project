@@ -1,12 +1,29 @@
+# Author: Hunter Ruebsamen
+# Class: Engineering Design ROP
+# Teacher: Mr. Crossett
+
 # Socket Docs: https://docs.python.org/3.3/library/socket.html#socket.socket.listen
+# Raspberry Pi Zero W Pinout: https://pinout.xyz/
+# L298N Dual H-Bridge Motor Driver: http://www.handsontec.com/dataspecs/L298N%20Motor%20Driver.pdf
+# GPIO Zero Library Pin Numbers: https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
+
+# IN1 (LEFT PWM) - BCM 12 
+# IN2 (LEFT DIR) - BCM 16
+# IN3 (RIGHT PWM) - BCM 20 
+# IN4 (RIGHT DIR) - BCM 21
+
 
 import socket
 import sys
 from subprocess import check_call
-from gpiozero import LED
+from gpiozero import Robot
 
 HOST = ''                 # Symbolic name meaning all available interfaces
 PORT = 61625
+IN1 = 12
+IN2 = 16
+IN3 = 20
+IN4 = 21
 
 # Create a UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -16,7 +33,8 @@ server_address = (HOST, PORT)
 print('starting up on {} port {}'.format(*server_address))
 sock.bind(server_address)
 
-led = LED(20)
+# create a robot
+robot = Robot(left=(IN1,IN2), right=(IN3,IN4))
 
 while True:
 	print('\nwaiting to receive message')
@@ -32,9 +50,42 @@ while True:
 	if data == b'PING':
 		print ('ping received')
 		sent = sock.sendto(b'ping received', address)
-	if data == b'STOP':
+	elif data == b'STOP':
+		robot.stop()
 		print ('stop received')
 		sent = sock.sendto(b'stop received', address)
-    if data == b'SHUTDOWN':
+    elif data == b'SHUTDOWN':
+		robot.stop()
         print ('shutting down')
         check_call(['sudo','poweroff'])
+		break  # exit while loop and take no more commands
+	else:
+		str_data = str(data)
+		new_data = str_data.split(':')
+		forspeed = float(new_data[0])
+		rotspeed = float(new_data[1])
+		# handle movement
+		if forspeed > 0:
+			# move forward
+			if rotspeed >= 0:
+				# forward - right
+				robot.forward(speed=forspeed,curve_right=rotspeed)
+			else:
+				# forward - left
+				robot.forward(speed=forspeed,curve_left=-rotspeed)
+		elif forspeed < 0:
+			# move backward
+			if rotspeed >= 0:
+				# backward - right
+				robot.backward(speed=-forspeed,curve_right=rotspeed)
+			else:
+				# backward - left
+				robot.backward(speed=-forspeed,curve_left=-rotspeed)
+		else:
+			# turn in place
+			if rotspeed > 0:
+				robot.right(rotspeed)
+			elif rotspeed < 0:
+				robot.left(-rotspeed)
+			else:
+				robot.stop()
