@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         JoystickView joystick = findViewById(R.id.JoystickView);
         Button redButton = findViewById(R.id.redbutton);
         Button greenButton = findViewById(R.id.greenbutton);
+        Button pingButton = findViewById(R.id.ping);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         WebView myWebView = findViewById(R.id.webview);
         final TextView myTextView = findViewById(R.id.textView);
@@ -82,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendMessage("STOP", myTextView);
+            }
+        });
+        pingButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage("PING", myTextView);
             }
         });
 
