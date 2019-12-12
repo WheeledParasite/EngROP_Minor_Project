@@ -68,6 +68,13 @@ while True:
 		print(new_data[1])
 		forspeed = float(new_data[0])
 		rotspeed = float(new_data[1])
+		
+		# handle glitches!
+		if forspeed > 1.0 or forspeed < -1.0:
+			forspeed = 0
+		if rotspeed > 1.0 or rotspeed < -1.0:
+			rotspeed = 0
+			
 		# handle movement
 		if forspeed > 0:
 			# move forward
