@@ -65,6 +65,12 @@ def distance_thread(timeout):
 x = threading.Thread(target=distance_thread, args=(1,))
 x.start()
 
+"""
+Sending data to Android:
+Preface D: = Debug Data (Text)
+Preface L: = Left HC04 Sensor
+Preface R: = Right HC04 Sensor
+"""
 while True:
 	print('\nwaiting to receive message')
 	data, address = sock.recvfrom(4096)
@@ -78,16 +84,16 @@ while True:
 #		print('sent {} bytes back to {}'.format(sent, address))
 	if data == b'PING':
 		print ('ping received')
-		sent = sock.sendto(b'ping received', address)
+		sent = sock.sendto(b'D:ping received', address)
 	elif data == b'STOP':
 		robot.stop()
 		print ('stop received')
-		sent = sock.sendto(b'stop received', address)
+		sent = sock.sendto(b'D:stop received', address)
 	elif data == b'SHUTDOWN':
 		shutdown = True
 		robot.stop()
 		x.join()
-        sent = sock.sendto(b'Shutting Down Robot', address)
+        sent = sock.sendto(b'D:Shutting Down Robot', address)
 		print ('shutting down')
 		check_call(['sudo','poweroff'])
 		break  # exit while loop and take no more commands
@@ -136,4 +142,3 @@ while True:
 				robot.left(-rotspeed)
 			else:
 				robot.stop()
-
