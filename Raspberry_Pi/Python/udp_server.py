@@ -84,23 +84,23 @@ while True:
 #		print('sent {} bytes back to {}'.format(sent, address))
 	if data == b'PING':
 		print ('ping received')
-		sent = sock.sendto(b'D:ping received', address)
+		sent = sock.sendto(b'D:ping received\n', address)
 	elif data == b'STOP':
 		robot.stop()
 		print ('stop received')
-		sent = sock.sendto(b'D:stop received', address)
+		sent = sock.sendto(b'D:stop received\n', address)
 	elif data == b'SHUTDOWN':
 		shutdown = True
 		robot.stop()
 		x.join()
-        sent = sock.sendto(b'D:Shutting Down Robot', address)
+        sent = sock.sendto(b'D:Shutting Down Robot\n', address)
 		print ('shutting down')
 		check_call(['sudo','poweroff'])
 		break  # exit while loop and take no more commands
 	else:
 		#send distance data
-		sent = sock.sendto(b'R:'+str(rightDistance), address)
-		sent = sock.sendto(b'L:' +str(leftDistance), address)
+		sent = sock.sendto(b'R:'+str(rightDistance)+b'\n', address)
+		sent = sock.sendto(b'L:' +str(leftDistance)+b'\n', address)
 
 		#recieve data
 		str_data = data.decode("utf-8")
